@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { appendSubmissionRow } from "@/lib/google-sheets";
+import { generateLaptopRecommendations } from "@/lib/openai-recommend";
 import {
   isAnswerComplete,
   QUESTIONS,
@@ -15,6 +16,8 @@ type SubmitBody = {
   email?: string;
   answers?: Answers;
 };
+
+export const maxDuration = 60;
 
 export async function POST(request: Request) {
   try {
@@ -43,7 +46,18 @@ export async function POST(request: Request) {
 
     await appendSubmissionRow({ name, email, answers });
 
-    return NextResponse.json({ ok: true });
+    try {
+      const recommendations = await generateLaptopRecommendations(answers);
+      return NextResponse.json({ ok: true, recommendations });
+    } catch (recommendError) {
+      console.error("Recommendations failed:", recommendError);
+      return NextResponse.json({
+        ok: true,
+        recommendations: null,
+        recommendationsError:
+          "Your answers were saved, but recommendations could not be generated right now. Please try again in a moment.",
+      });
+    }
   } catch (error) {
     console.error("Submit failed:", error);
     return NextResponse.json(

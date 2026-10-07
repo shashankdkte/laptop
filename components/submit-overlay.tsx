@@ -6,8 +6,9 @@ import { Loader2 } from "lucide-react";
 const MESSAGES = [
   "Saving your answers…",
   "Writing to Google Sheets…",
+  "Searching current laptop prices…",
+  "Building your recommendations…",
   "Almost done, please wait…",
-  "Still working, this can take a moment…",
 ];
 
 export function SubmitOverlay() {
@@ -39,7 +40,7 @@ export function SubmitOverlay() {
           {MESSAGES[messageIndex]}
         </p>
         <p className="text-muted-foreground mt-2 text-sm">
-          Please keep this page open.
+          This can take up to a minute. Please keep this page open.
         </p>
 
         <div className="bg-primary/15 mt-6 h-1.5 overflow-hidden rounded-full">

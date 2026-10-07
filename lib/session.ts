@@ -1,10 +1,18 @@
+import type { Recommendations } from "@/lib/openai-recommend";
+
 export type UserIdentity = {
   name: string;
   email: string;
 };
 
+export type StoredRecommendations = {
+  recommendations: Recommendations | null;
+  recommendationsError?: string;
+};
+
 const STORAGE_KEY = "laptop-quiz-user";
 const ANSWERS_KEY = "laptop-quiz-answers";
+const RECS_KEY = "laptop-quiz-recommendations";
 
 export function saveUser(user: UserIdentity) {
   if (typeof window === "undefined") return;
@@ -48,6 +56,27 @@ export function loadAnswers(): Record<string, unknown> {
 export function clearAnswers() {
   if (typeof window === "undefined") return;
   sessionStorage.removeItem(ANSWERS_KEY);
+}
+
+export function saveRecommendations(payload: StoredRecommendations) {
+  if (typeof window === "undefined") return;
+  sessionStorage.setItem(RECS_KEY, JSON.stringify(payload));
+}
+
+export function loadRecommendations(): StoredRecommendations | null {
+  if (typeof window === "undefined") return null;
+  const raw = sessionStorage.getItem(RECS_KEY);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as StoredRecommendations;
+  } catch {
+    return null;
+  }
+}
+
+export function clearRecommendations() {
+  if (typeof window === "undefined") return;
+  sessionStorage.removeItem(RECS_KEY);
 }
 
 export function clearQuizSession() {

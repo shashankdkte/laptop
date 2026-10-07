@@ -24,11 +24,13 @@ import {
   type AnswerValue,
   type Answers,
 } from "@/lib/questions";
+import type { Recommendations } from "@/lib/openai-recommend";
 import {
   clearQuizSession,
   loadAnswers,
   loadUser,
   saveAnswers,
+  saveRecommendations,
   type UserIdentity,
 } from "@/lib/session";
 import { Loader2 } from "lucide-react";
@@ -113,11 +115,20 @@ export default function QuizPage() {
         }),
       });
 
-      const data = (await response.json()) as { ok?: boolean; error?: string };
+      const data = (await response.json()) as {
+        ok?: boolean;
+        error?: string;
+        recommendations?: Recommendations | null;
+        recommendationsError?: string;
+      };
       if (!response.ok) {
         throw new Error(data.error || "Submit failed.");
       }
 
+      saveRecommendations({
+        recommendations: data.recommendations ?? null,
+        recommendationsError: data.recommendationsError,
+      });
       clearQuizSession();
       router.push("/thanks");
     } catch (err) {

@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ShareButton } from "@/components/share-button";
-import { saveUser } from "@/lib/session";
+import { clearRecommendations, saveUser } from "@/lib/session";
 
 export default function HomePage() {
   const router = useRouter();
@@ -38,6 +38,7 @@ export default function HomePage() {
       return;
     }
 
+    clearRecommendations();
     saveUser({ name: trimmedName, email: trimmedEmail });
     router.push("/quiz");
   }
