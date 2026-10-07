@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ShareButton } from "@/components/share-button";
 import { saveUser } from "@/lib/session";
 
 export default function HomePage() {
@@ -54,6 +55,9 @@ export default function HomePage() {
           About 40 simple questions. Enter your email so we can save your answers
           and get back to you with recommendations.
         </p>
+        <div className="pt-2">
+          <ShareButton />
+        </div>
       </div>
 
       <Card>

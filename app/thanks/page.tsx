@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 
+import { ShareButton } from "@/components/share-button";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,11 +24,17 @@ export default function ThanksPage() {
             that fits your needs.
           </CardDescription>
         </CardHeader>
-        <CardContent className="text-muted-foreground text-center text-sm">
-          You can close this page. If you need to update anything, start again
-          with the same or a different email.
+        <CardContent className="text-muted-foreground space-y-4 text-center text-sm">
+          <p>
+            You can close this page. If you need to update anything, start again
+            with the same or a different email.
+          </p>
+          <p>
+            Know someone picking a laptop? Share this questionnaire with them.
+          </p>
         </CardContent>
-        <CardFooter className="justify-center">
+        <CardFooter className="flex flex-wrap justify-center gap-3">
+          <ShareButton />
           <Button asChild variant="outline">
             <Link href="/">Back to start</Link>
           </Button>
